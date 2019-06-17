@@ -24,29 +24,20 @@ void draw()
 void movment_2()//___________avilable movment in 2 player mode
 {
 	char a;
-error1:
-	cout << "(" << player << ")" << "choose the place to play in...\n";
-	cin >> a;
-	Beep(500, 250);
-	if (a == '1' || a == '2' || a == '3' || a == '4' || a == '5' || a == '6' || a == '7' || a == ' 8' || a == '9')
-	{
+	do{
+		cout << "(" << player << ")" << "choose the place to play in...\n";
+		cin >> a;
+		Beep(500, 250);
 		for (int i = 0; i < 3; i++)
 		{
 			for (int j = 0; j < 3; j++)
 			{
 				if (a == game[i][j])
 					game[i][j] = player;
-
 			}
-
-
 		}
-	}
-	else
-	{
-		cout << "unavilabel number..\n";
-		goto error1;
-	}
+
+	 } while (a != '1' && a != '2' && a != '3' && a != '4' && a != '5' &&a != '6' && a != '7' && a != ' 8' && a != '9');
 
 }
 void movment_1()//___________avilable movment in 1 player mode
