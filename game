@@ -1,0 +1,256 @@
+#include <iostream>
+#include<cstdlib>
+#include<ctime>
+#include<Windows.h>
+using namespace std;
+char game[3][3] = { { '1', '2', '3' }, { '4', '5', '6' }, { '7', '8', '9' } };
+char player;
+
+void draw()
+{
+	system("cls");
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			cout << "\t\t\t" << game[i][j] << "   ";
+		}
+		cout << "\n\n\n\n";
+
+
+	}
+
+}
+void movment_2()//___________avilable movment in 2 player mode
+{
+	char a;
+error1:
+	cout << "(" << player << ")" << "choose the place to play in...\n";
+	cin >> a;
+	Beep(500, 250);
+	if (a == '1' || a == '2' || a == '3' || a == '4' || a == '5' || a == '6' || a == '7' || a == ' 8' || a == '9')
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				if (a == game[i][j])
+					game[i][j] = player;
+
+			}
+
+
+		}
+	}
+	else
+	{
+		cout << "unavilabel number..\n";
+		goto error1;
+	}
+
+}
+void movment_1()//___________avilable movment in 1 player mode
+{
+	char a;
+	if (player == 'x')
+	{
+		cout << "(" << player << ")" << "choose the place to play in...\n";
+		cin >> a;
+		Beep(250, 250);
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				if (a == game[i][j])
+				{
+					game[i][j] = player;
+					break;
+				}
+			}
+		}
+	}
+	if (player == 'o')
+	{
+	error1:
+		srand(time(0));
+		a = (rand() % 9) + 49;
+
+		int check[3][3] = { { '1', '2', '3' }, { '4', '5', '6' }, { '7', '8', '9' } };
+
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				if (a == check[i][j])
+				{
+					if (game[i][j] == 'x' || game[i][j] == 'o')
+						goto error1;
+					else
+						game[i][j] = player;
+					Beep(500, 250);
+				}
+
+			}
+
+		}
+	}
+}
+
+char win_cases()
+{
+
+	//player 1
+	if (game[0][0] == 'x'&&game[0][1] == 'x'&&game[0][2] == 'x')
+		return'x';
+	if (game[1][0] == 'x'&&game[1][1] == 'x'&&game[1][2] == 'x')
+		return'x';
+	if (game[2][0] == 'x'&&game[2][1] == 'x'&&game[2][2] == 'x')
+		return'x';
+	if (game[0][0] == 'x'&&game[1][0] == 'x'&&game[2][0] == 'x')
+		return'x';
+	if (game[0][1] == 'x'&&game[1][1] == 'x'&&game[2][1] == 'x')
+		return'x';
+	if (game[0][2] == 'x'&&game[1][2] == 'x'&&game[2][2] == 'x')
+		return'x';
+	if (game[0][0] == 'x'&&game[1][1] == 'x'&&game[2][2] == 'x')
+		return'x';
+	if (game[0][2] == 'x'&&game[1][1] == 'x'&&game[2][0] == 'x')
+		return'x';
+	//player 2
+	if (game[0][0] == 'o'&&game[0][1] == 'o'&&game[0][2] == 'o')
+		return'o';
+	if (game[1][0] == 'o'&&game[1][1] == 'o'&&game[1][2] == 'o')
+		return'o';
+	if (game[2][0] == 'o'&&game[2][1] == 'o'&&game[2][2] == 'o')
+		return'o';
+	if (game[0][0] == 'o'&&game[1][0] == 'o'&&game[2][0] == 'o')
+		return'o';
+	if (game[0][1] == 'o'&&game[1][1] == 'o'&&game[2][1] == 'o')
+		return'o';
+	if (game[0][2] == 'o'&&game[1][2] == 'o'&&game[2][2] == 'o')
+		return'o';
+	if (game[0][0] == 'o'&&game[1][1] == 'o'&&game[2][2] == 'o')
+		return'o';
+	if (game[0][2] == 'o'&&game[1][1] == 'o'&&game[2][0] == 'o')
+		return'o';
+	if (game[0][0] != '1'&&game[0][1] != '2'&&game[0][2] != '3'&&game[1][0] != '4'&&game[1][1] != '5'&&game[1][2] != '6'&&game[2][0] != '7'&&game[2][1] != '8'&&game[2][2] != '9')
+		return 'l';
+	else
+		return 's';
+}
+void main()
+{
+	int a;
+	system("color A0");
+	cout << "\tfor two player press (1)\t\t\t\t\tfor one player press (2)\n";
+error7:
+	
+	cin >> a;
+	Beep(600, 250);
+	if (a == 1 || a == 2)
+	{
+		switch (a)
+		{
+		case 1://________________________one player case
+			system("color F0");
+
+		error2:
+
+			while (win_cases() == 's')
+			{
+
+				draw();
+				movment_1();
+				if (player == 'x')
+					player = 'o';
+				else
+					player = 'x';
+				win_cases();
+
+			}
+			draw();
+			if (win_cases() == 'l')
+				cout << "draw\n";
+			else
+			{
+
+				draw();
+				cout << "congratulation(" << win_cases() << ")you win the game!\n";
+			}
+				break;
+		case 2://__________________________two player case
+		error5 :
+			system("color B4");
+			   cout << "please choose your sign(X/O):";
+			   cin >> player;
+			   if (player == 'x' || player == 'o')
+			   {
+				   while (win_cases() == 's')
+				   {
+
+					   draw();
+					   movment_2();
+					   if (player == 'x')
+						   player = 'o';
+					   else
+						   player = 'x';
+					   win_cases();
+
+				   }
+				   draw();
+				   if (win_cases() == 'l')
+				   
+					   cout << "draw\n";
+				      else
+				   {
+					   cout << "congratulation(" << win_cases() << ")you win the game!\n";
+				   
+				   }
+			   }
+			   else
+			   {
+				   cout << "unavilable sign...\n";
+
+				   goto error5;
+			   }
+			   break;
+		default://_________________________defult case
+		error4 :
+			system("color B4");
+			   cout << "please choose your sign(X/O):";
+			   cin >> player;
+			   if (player == 'x' || player == 'o')
+			   {
+				   while (win_cases() == 's')
+				   {
+
+					   draw();
+					   movment_2();
+					   if (player == 'x')
+						   player = 'o';
+					   else
+						   player = 'x';
+					   win_cases();
+
+				   }
+				   draw();
+				   cout << "congratulation(" << win_cases() << ")you win the game!\n";
+
+			   }
+			   else
+			   {
+				   cout << "unavilable sign...\n";
+
+				   goto error4;
+			   }
+			   break;
+		}
+	}
+	else
+	{
+		cout << "unavilable number...\n";
+		goto error7;
+	}
+			
+		
+}
